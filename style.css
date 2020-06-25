@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+}
+
+.row {}
+
+.slot {
+  border: 1px solid black;
+  padding: 1rem;
+}
+
+.player-1 {
+  background-color: yellow;
+}
+
+.player-2 {
+  background-color: blue;
+}
