@@ -1,21 +1,29 @@
 const container = document.querySelector('.container');
-const rows = Array.from(container.querySelectorAll('.row'));
-const winner = document.querySelector('.winner');
-let player = 1;
+const game      = container.querySelector('.game');
+const rows      = Array.from(container.querySelectorAll('.row'));
+const slots     = Array.from(container.querySelectorAll('.slot'));
+const winner    = container.querySelector('.winner');
+const currentP  = container.querySelector('.current-player');
+let player      = 1;
+let gameOver    = false;
 
 container.addEventListener('click', event => {
   if (event.target.classList.contains('slot'))
-    handleClick(event.target, player);
+    return playerMove(event.target);
+
+  if (event.target.classList.contains('reset-button'))
+    return resetGame();
 });
 
-const handleClick = element => {
+const playerMove = element => {
   // Slot already taken
-  if (element.classList.contains('active'))
+  if (element.classList.contains('active') || gameOver)
     return;
 
   element.classList.add(`player-${player}`, 'active');
   checkForWinner(player);
   player = player === 1 ? 2 : 1;
+  currentP.innerText = `Player: ${player}`;
 };
 
 const checkVertical = () => {
@@ -57,7 +65,7 @@ const checkHorizontal = () => {
 const checkForWinner = player => {
   let result = 0;
 
-  const verticalResult = checkVertical();
+  const verticalResult   = checkVertical();
   const horizontalResult = checkHorizontal();
 
   if (verticalResult || horizontalResult) {
@@ -67,4 +75,14 @@ const checkForWinner = player => {
 
 const endGame = player => {
   winner.innerText = `Player ${player} wins!`;
+  gameOver = true;
+};
+
+const resetGame = () => {
+  for (const slot of slots)
+    slot.classList.remove('active', 'player-1', 'player-2')
+
+  gameOver = false;
+  winner.innerText = '';
+  currentP.innerText = 'Player: 1';
 };
