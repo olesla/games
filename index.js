@@ -1,51 +1,35 @@
-class Game {
-  /**
-   * Constructor
-   * @param {Array}  words 
-   * @param {Object} container
-   */
-  constructor(words, container) {
-    this.words         = words;
-    this.container     = container;
-    this.currentWord   = 0;
-    this.currentLetter = 0;
+const words  = ['ole', 'christian', 'slaattene'];
+const canvas = document.querySelector('canvas');
+const button = document.querySelector('button');
+const ctx    = canvas.getContext('2d');
 
-    this.elements = {
-      paragraph: document.createElement('p'),
-      canvas   : document.createElement('canvas'),
-    };
+let word   = 0;
+let letter = 1;
 
-    for (const element of Object.values(this.elements))
-      this.container.appendChild(element);
+const nextWord = function () {
+  word++;
+  letter = 1;
+  printWord(words[word]);
+};
 
-    window.addEventListener('keydown', event => {
-      if (this.words[this.currentWord][this.currentLetter] === event.key)
-        console.log('correct');
-      else
-        console.log('wrong');
+const printWord = function (word) {
+  ctx.clearRect(0, 0, 300, 300);
+  ctx.fillText(word, 50, 50);
+};
 
-      this.currentLetter++;
+const startGame = function () {
+  printWord(words[0]);
+  button.style.display = 'none';
 
-      if (this.currentLetter === this.words[this.currentWord].length) {
-        this.currentWord++;
-        this.currentLetter = 0;
-        this.nextWord();
-      }
-    });
+  window.addEventListener('keydown', handleKeyPress);
+};
 
-    this.nextWord();
-  }
-  
-  nextWord() {
-    if (this.currentWord >= this.words.length) {
-      this.elements.paragraph.innerText = 'You win!';
-      window.removeEventListener('keydown');
-    }
-    else {
-      this.elements.paragraph.innerText = this.words[this.currentWord];
-    }
-  }
-}
+const handleKeyPress = function (event) {
+  // if (event.key === words[word][letter])
+  if (letter >= words[word].length)
+    return nextWord();
 
-const elem = document.querySelector('.container');
-const game = new Game(['ole', 'christian', 'slaattene'], elem);
+  letter++;
+};
+
+button.addEventListener('click', startGame);
