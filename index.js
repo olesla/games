@@ -1,13 +1,20 @@
-const list = ['ole', 'christian', 'slaattene'];
-const ele  = document.querySelector('.game');
+'use strict';
+import words from './words.js';
 
 class Game {
-  constructor (ele, words) {
-    this.ele   = ele;
+  constructor (words) {
+    this.elems = {
+      root : document.querySelector('.game'),
+      time : document.querySelector('.time'),
+      score: document.querySelector('.score'),
+    };
     this.words = words;
     this.index = 0;
+    this.time  = 0;
+    this.score = 0;
     this.word  = new Word(this.words[this.index]);
     this.initContainer();
+    this.startTimer();
 
     window.addEventListener(
       'keydown',
@@ -16,8 +23,20 @@ class Game {
   }
 
   initContainer () {
-    this.ele.innerHTML = '';
-    this.ele.appendChild(this.word.ele);
+    this.elems.root.innerHTML = '';
+    this.elems.root.appendChild(this.word.ele);
+  }
+
+  startTimer () {
+    setInterval(() => {
+      this.time++;
+      this.elems.time.innerText = this.time;
+    }, 1000);
+  }
+
+  updateScore () {
+    this.score++;
+    this.elems.score.innerText = this.score;
   }
 
   handleKey (event) {
@@ -26,6 +45,8 @@ class Game {
     const result = event.key === string[letter];
 
     this.word.update(letter, result);
+    if (result)
+      this.updateScore();
 
     if (this.word.letter >= this.word.string.length) {
       this.index++;
@@ -41,6 +62,9 @@ class Word {
     this.letter = 0;
     this.result = new Array(string.length);
     this.ele    = document.createElement('div');
+    this.ele
+      .classList
+      .add('word-container', 'center')
 
     for (let x of this.string) {
       const span = document.createElement('span');
@@ -53,11 +77,11 @@ class Word {
     this.ele
       .children[index]
       .classList
-      .add(result ? 'correct' : 'wrong');
+      .add(result ? 'text-green' : 'text-red');
 
     this.result[index] = result;
     this.letter++;
   }
 }
 
-const game = new Game(ele, list);
+new Game(words);

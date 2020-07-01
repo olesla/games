@@ -1,9 +1,26 @@
-.game {
-  border: 1px solid black;
+body {
+  font-family: 'Oswald', sans-serif;
+  font-size: 5rem;
+  background-color: #283d3b;
+  color: #edddd4;
 }
-.correct {
-  color: green;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.wrong {
-  color: red;
+.full-width {
+  width: 100%;
+}
+.even {
+  justify-content: space-evenly;
+}
+.word-container {
+  height: 50vh;
+}
+.text-green {
+  color: #06d6a0;
+}
+.text-red {
+  color: #ef476f;
 }
