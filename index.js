@@ -1,35 +1,63 @@
-const words  = ['ole', 'christian', 'slaattene'];
-const canvas = document.querySelector('canvas');
-const button = document.querySelector('button');
-const ctx    = canvas.getContext('2d');
+const list = ['ole', 'christian', 'slaattene'];
+const ele  = document.querySelector('.game');
 
-let word   = 0;
-let letter = 1;
+class Game {
+  constructor (ele, words) {
+    this.ele   = ele;
+    this.words = words;
+    this.index = 0;
+    this.word  = new Word(this.words[this.index]);
+    this.initContainer();
 
-const nextWord = function () {
-  word++;
-  letter = 1;
-  printWord(words[word]);
-};
+    window.addEventListener(
+      'keydown',
+      this.handleKey.bind(this)
+    );
+  }
 
-const printWord = function (word) {
-  ctx.clearRect(0, 0, 300, 300);
-  ctx.fillText(word, 50, 50);
-};
+  initContainer () {
+    this.ele.innerHTML = '';
+    this.ele.appendChild(this.word.ele);
+  }
 
-const startGame = function () {
-  printWord(words[0]);
-  button.style.display = 'none';
+  handleKey (event) {
+    const string = this.word.string;
+    const letter = this.word.letter;
+    const result = event.key === string[letter];
 
-  window.addEventListener('keydown', handleKeyPress);
-};
+    this.word.update(letter, result);
 
-const handleKeyPress = function (event) {
-  // if (event.key === words[word][letter])
-  if (letter >= words[word].length)
-    return nextWord();
+    if (this.word.letter >= this.word.string.length) {
+      this.index++;
+      this.word = new Word(this.words[this.index]);
+      this.initContainer();
+    }
+  }
+}
 
-  letter++;
-};
+class Word {
+  constructor (string) {
+    this.string = string;
+    this.letter = 0;
+    this.result = new Array(string.length);
+    this.ele    = document.createElement('div');
 
-button.addEventListener('click', startGame);
+    for (let x of this.string) {
+      const span = document.createElement('span');
+      span.innerText = x;
+      this.ele.appendChild(span);
+    }
+  }
+
+  update (index, result) {
+    this.ele
+      .children[index]
+      .classList
+      .add(result ? 'correct' : 'wrong');
+
+    this.result[index] = result;
+    this.letter++;
+  }
+}
+
+const game = new Game(ele, list);
