@@ -17,10 +17,6 @@ class Game {
     this.initContainer();
 
     window.onkeydown = this.handleKey.bind(this);
-    // window.addEventListener(
-    //   'keydown',
-    //   this.handleKey.bind(this),
-    // );
   }
 
   initContainer () {
