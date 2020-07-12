@@ -13,13 +13,14 @@ class Game {
     this.time  = 0;
     this.score = 0;
     this.word  = new Word(this.words[this.index]);
+    this.timer = this.startTimer();
     this.initContainer();
-    this.startTimer();
 
-    window.addEventListener(
-      'keydown',
-      this.handleKey.bind(this)
-    );
+    window.onkeydown = this.handleKey.bind(this);
+    // window.addEventListener(
+    //   'keydown',
+    //   this.handleKey.bind(this),
+    // );
   }
 
   initContainer () {
@@ -28,7 +29,7 @@ class Game {
   }
 
   startTimer () {
-    setInterval(() => {
+    return setInterval(() => {
       this.time++;
       this.elems.time.innerText = this.time;
     }, 1000);
@@ -50,9 +51,22 @@ class Game {
 
     if (this.word.letter >= this.word.string.length) {
       this.index++;
+
+      if (this.index === this.words.length)
+        return this.gameOver();
+
       this.word = new Word(this.words[this.index]);
       this.initContainer();
     }
+  }
+
+  gameOver () {
+    clearInterval(this.timer);
+    window.onkeydown = undefined;
+    this
+      .elems
+      .root
+      .innerHTML = `<div class='word-container center'>Game over!</div>`;
   }
 }
 
