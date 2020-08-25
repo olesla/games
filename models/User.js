@@ -12,15 +12,15 @@ class User extends Model {
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
         unique: true,
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
+        minLength: 6,
       },
-      username: {
-        type: DataTypes.STRING(16),
-      },
-    }, {sequelize});
+    }, { sequelize });
   }
 }
 

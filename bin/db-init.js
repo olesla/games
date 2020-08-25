@@ -6,7 +6,6 @@ const db = require('../db');
   console.log('Syncing database..');
   try {
     await db.User.sync({ force: true });
-    await db.Room.sync({ force: true });
     console.log('Success!');
   }
   catch (error) {

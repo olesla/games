@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const User = require('./models/User');
-const Room = require('./models/Room');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
@@ -14,7 +13,6 @@ const sequelize = new Sequelize('database', 'username', 'password', {
 
 const models = {
   User: User.init(sequelize, Sequelize),
-  Room: Room.init(sequelize, Sequelize),
 };
 
 module.exports = {
