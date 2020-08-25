@@ -1,6 +1,7 @@
 'use strict';
 
 const { Model } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 class User extends Model {
   static init(sequelize, DataTypes) {
@@ -13,14 +14,36 @@ class User extends Model {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: 'Email already in use',
+        },
+        validate: {
+          isEmail: {
+            msg: 'Not a valid email',
+          },
+        },
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        minLength: 6,
+        minLength: 8,
+        validate: {
+          len: {
+            args: [8, 255],
+            msg: 'Password must be between 8 and 255 characters',
+          },
+        },
       },
-    }, { sequelize });
+    }, {
+      hooks: {
+        beforeCreate: async user => {
+          const salt = await bcrypt.genSalt();
+          user.password = await bcrypt.hash(user.password, salt);
+        },
+      },
+      sequelize,
+    });
   }
 }
 

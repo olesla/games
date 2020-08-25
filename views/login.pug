@@ -1,1 +1,11 @@
-h1='Login page'
+extends partials/layout.pug
+
+block content
+  form(action='/login' method='post')
+    div
+      label(for='email')='Email'
+      input(type='email' name='email' required)
+    div
+      label(for='password')='Password'
+      input(type='password' name='password' required)
+    button(type='submit')='Login'
