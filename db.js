@@ -2,11 +2,17 @@
 
 const Sequelize = require('sequelize');
 const User = require('./models/User');
+const {
+  DB_NAME,
+  DB_USERNAME,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_DIALECT,
+} = require('./config.json');
 
-// TODO: Move this to config.json
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'sqlite',
+const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: DB_DIALECT,
   logging: false,
   // SQLite only
   storage: 'database.sqlite',

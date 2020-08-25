@@ -1,4 +1,9 @@
 {
   "HTTP_PORT": 3000,
-  "JWT_SECRET": "your-jwt-secret"
+  "JWT_SECRET": "your-jwt-secret",
+  "DB_HOST": "localhost",
+  "DB_DIALECT": "sqlite",
+  "DB_NAME": "database",
+  "DB_USERNAME": "username",
+  "DB_PASSWORD": "password"
 }

@@ -39,7 +39,6 @@ const handleErrors = err => {
 };
 
 const createToken = id => {
-  // TODO: Move this to config.json
   return jwt.sign({ id }, JWT_SECRET, {
     expiresIn: THREE_DAYS_S,
   });
