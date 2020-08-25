@@ -1,4 +1,0 @@
-{
-  "HTTP_PORT": 3000,
-  "JWT_SECRET": "gompens hemmelighet"
-}
