@@ -1,6 +1,12 @@
 'use strict';
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const User = require('../db').User;
+const { JWT_SECRET } = require('../config.json');
+const THREE_DAYS_S = 3 * 24 * 60 * 60;
+const THREE_DAYS_MS = THREE_DAYS_S * 1000;
+const INVALID_LOGIN = { errors: { generic: ['Invalid login'] } };
 
 /**
  * Handler for errors
@@ -32,6 +38,13 @@ const handleErrors = err => {
   return errors;
 };
 
+const createToken = id => {
+  // TODO: Move this to config.json
+  return jwt.sign({ id }, JWT_SECRET, {
+    expiresIn: THREE_DAYS_S,
+  });
+};
+
 module.exports.getRegister = async (req, res) => {
   res.render('register');
 };
@@ -41,11 +54,16 @@ module.exports.postRegister = async (req, res) => {
 
   try {
     const user = await User.create({ email, password });
-    res.status(201).json(user);
+    const token = createToken(user.id);
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      maxAge: THREE_DAYS_MS,
+    });
+    res.status(201).json({ user: user.id });
   }
   catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json(errors);
+    res.status(400).json({ errors });
   }
 };
 
@@ -53,6 +71,20 @@ module.exports.getLogin = (req, res) => {
   res.render('login');
 };
 
+// TODO: Add timingsafe
 module.exports.postLogin = async (req, res) => {
-  res.send('login');
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ where: { email } });
+  if (!user) return res.send(INVALID_LOGIN);
+
+  const auth = await bcrypt.compare(password, user.password);
+  if (!auth) return res.send(INVALID_LOGIN);
+
+  const token = createToken(user.id);
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    maxAge: THREE_DAYS_MS,
+  });
+  res.status(200).json({ user: user.id });
 };

@@ -1,11 +1,17 @@
 extends partials/layout.pug
 
+block script
+  script(defer type='module' src='register.js')
+
 block content
   form(action='/register' method='post')
+    .error(data-name='generic')
     div
       label(for='email')='Email'
       input(type='email' name='email' required)
+      .error(data-name='email')
     div
       label(for='password')='Password'
       input(type='password' name='password' required)
+      .error(data-name='password')
     button(type='submit')='Register'

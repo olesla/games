@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize');
 const User = require('./models/User');
 
+// TODO: Move this to config.json
 const sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
   dialect: 'sqlite',

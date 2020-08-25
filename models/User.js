@@ -20,7 +20,7 @@ class User extends Model {
         },
         validate: {
           isEmail: {
-            msg: 'Not a valid email',
+            msg: 'Invalid email',
           },
         },
       },
