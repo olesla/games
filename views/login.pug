@@ -14,4 +14,8 @@ block content
       label(for='password')='Password'
       input(type='password' name='password' required)
     .error(data-name='password')
-    button(type='submit')='Login'
+    .form-footer
+      button(type='submit')='Login'
+      a(href='/forgot')='Lost your password?'
+  p='Dont have an account? '
+    a(href='/register')='Sign up here'

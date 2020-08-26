@@ -3,7 +3,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../db').User;
-const { JWT_SECRET } = require('../config.json');
+const { JWT_SECRET } = require('../app.json');
 const THREE_DAYS_S = 3 * 24 * 60 * 60;
 const THREE_DAYS_MS = THREE_DAYS_S * 1000;
 const INVALID_LOGIN = { errors: { generic: ['Invalid login'] } };
@@ -86,4 +86,9 @@ module.exports.postLogin = async (req, res) => {
     maxAge: THREE_DAYS_MS,
   });
   res.status(200).json({ user: user.id });
+};
+
+module.exports.getLogout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/');
 };

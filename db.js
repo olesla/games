@@ -8,7 +8,7 @@ const {
   DB_PASSWORD,
   DB_HOST,
   DB_DIALECT,
-} = require('./config.json');
+} = require('./app.json');
 
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   host: DB_HOST,

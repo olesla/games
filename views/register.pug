@@ -4,7 +4,7 @@ block script
   script(defer type='module' src='register.js')
 
 block content
-  form(action='/register' method='post')
+  form.register-form(action='/register' method='post')
     .error(data-name='generic')
     div
       label(for='email')='Email'
