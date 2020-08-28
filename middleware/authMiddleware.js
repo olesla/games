@@ -2,6 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../app.json');
+const { User } = require('../db');
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -10,11 +11,28 @@ const requireAuth = (req, res, next) => {
   try {
     jwt.verify(token, JWT_SECRET);
   }
+
   catch (err) {
-    console.log(err);
     return res.redirect('/login');
   }
   next();
 };
 
-module.exports = { requireAuth };
+// check current user
+const checkUser = async (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await User.findOne({ where: { id: decoded.id } });
+    res.locals.user = user;
+    next();
+  }
+
+  catch (err) {
+    res.locals.user = null;
+    next();
+  }
+};
+
+module.exports = { requireAuth, checkUser };

@@ -1,9 +1,14 @@
 html
   head
-    title Game hub
+    title My site
+    link(rel='stylesheet' href='/grid.css')
     link(rel='stylesheet' href='/styles.css')
-    link(rel='stylesheet' href='/helpers.css')
+    link(rel='icon' type='image/png' sizes='32x32' href='/favicon.png')
+
     block script
   body
-    h1=title
-    block content
+    .content
+      include nav.pug
+      main
+        block content
+      include footer.pug
