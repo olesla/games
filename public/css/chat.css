@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+
+chat {
+  grid-area: chat;
+  min-height: 60vh;
+}
+users { grid-area: users; }
+
+.chat {
+  font-family: 'Inconsolata', monospace;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-areas:
+    "users chat chat chat chat chat chat chat"
+}
+
+body .chat {
+  height: 50vh;
+}
+
+.chat > * {
+  padding: 2rem;
+  background: #1f3243;
+  color: #edf6f9;
+}
+
+.chat-container > .messages {
+  background: #edf6f9;
+  color: #1f3243;
+  height: 50vh;
+}
+
+.chat > users {}
+
+.chat > chat {}

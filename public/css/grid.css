@@ -54,5 +54,10 @@ body .content {
   display: flex;
   justify-content: space-between;
 }
-.content > main {}
-.content > footer {}
+
+.content > footer {
+  background: #36648b;
+  color: #edf6f9;
+  display: flex;
+  justify-content: center;
+}

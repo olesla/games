@@ -45,7 +45,7 @@ const createToken = id => {
 };
 
 module.exports.getRegister = async (req, res) => {
-  res.render('register');
+  res.render('auth/register');
 };
 
 module.exports.postRegister = async (req, res) => {
@@ -55,7 +55,6 @@ module.exports.postRegister = async (req, res) => {
     const user = await User.create({ email, password });
     const token = createToken(user.id);
     res.cookie('jwt', token, {
-      httpOnly: true,
       maxAge: THREE_DAYS_MS,
     });
     res.status(201).json({ user: user.id });
@@ -67,7 +66,7 @@ module.exports.postRegister = async (req, res) => {
 };
 
 module.exports.getLogin = (req, res) => {
-  res.render('login');
+  res.render('auth/login');
 };
 
 // TODO: Add timingsafe
@@ -82,7 +81,6 @@ module.exports.postLogin = async (req, res) => {
 
   const token = createToken(user.id);
   res.cookie('jwt', token, {
-    httpOnly: true,
     maxAge: THREE_DAYS_MS,
   });
   res.status(200).json({ user: user.id });

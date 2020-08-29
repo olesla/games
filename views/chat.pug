@@ -1,0 +1,17 @@
+block style
+  link(rel='stylesheet' href='/css/chat.css')
+block script
+  script(type='module' defer src='/js/chat.js')
+
+.chat
+  users
+    if users.length === 0
+      div='No users :('
+    else
+      ul
+        each user in users
+          li=user.email
+  chat
+    .chat-container
+      .messages
+      input#chat-input(type='text' placeholder='Write a message!')

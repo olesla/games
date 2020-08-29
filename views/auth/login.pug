@@ -1,7 +1,7 @@
-extends partials/auth.pug
+extends layout.pug
 
 block script
-  script(defer type='module' src='login.js')
+  script(defer type='module' src='/js/login.js')
 
 block content
   form(action='/login' method='post')
