@@ -3,15 +3,14 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const { HTTP_PORT, JWT_SECRET } = require('./app.json');
+const { HTTP_PORT, JWT_SECRET, DEV } = require('./app.json');
 const routes = require('./routes/web');
 const { User } = require('./db');
 const app = express();
 
 const WebSocket = require('ws');
 const socketServer = new WebSocket.Server({
-  port: 8080,
-  secure: false,
+  port: 3001,
 });
 
 app.set('view engine', 'pug');
@@ -19,6 +18,18 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(routes);
+
+if (DEV) {
+  const fs = require('fs');
+  const https = require('https');
+  const key = fs.readFileSync('./key.pem');
+  const cert = fs.readFileSync('./cert.pem');
+  const server = https.createServer({ key, cert }, app);
+  server.listen(HTTP_PORT, () => { console.log('HTTPS server started'); });
+}
+else {
+  app.listen(HTTP_PORT);
+}
 
 socketServer.on('connection', socket => {
   socket.on('message', async function(json) {
@@ -44,5 +55,3 @@ socketServer.on('connection', socket => {
     }
   });
 });
-
-app.listen(HTTP_PORT);

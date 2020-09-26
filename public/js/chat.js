@@ -1,6 +1,6 @@
 'use strict';
 
-const con = new WebSocket('ws://127.0.0.1:8080');
+const con = new WebSocket('ws://127.0.0.1:3001');
 const chatBox = document.querySelector('.messages');
 const chatInput = document.querySelector('#chat-input');
 
