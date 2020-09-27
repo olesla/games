@@ -1,8 +1,3 @@
-/**
- * Canvas game tutorial based on
- * http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
- */
-
 const canvas = document.querySelector('canvas');
 const ctx    = canvas.getContext('2d');
 
